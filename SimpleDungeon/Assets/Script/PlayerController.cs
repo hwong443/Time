@@ -19,59 +19,63 @@ public class PlayerController : Controller {
 		keyCodeStatus.Add (KeyCode.U,0);
 		keyCodeStatus.Add (KeyCode.I,0);
 		keyCodeStatus.Add (KeyCode.O,0);
+
+		receiver = GameObject.Find ("Player").GetComponent<Character> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (this.character != null) {
+		if (this.receiver != null) {
 			UpdateKeyCodeStatus ();
 
 			if (keyCodeStatus [KeyCode.A].Equals (0) && keyCodeStatus [KeyCode.D].Equals (0))
-				character.Move(Enum.Direction.STOP);
+				receiver.releaseA();
 			else {
 				if (Input.GetKeyDown (KeyCode.A)) {
-					character.Move(Enum.Direction.LEFT);
+					receiver.pressA();
+					Debug.Log("A");
 				} else if (Input.GetKeyUp (KeyCode.A)) {
 					if (keyCodeStatus [KeyCode.D].Equals (1))
-						character.Move(Enum.Direction.RIGHT);
+						receiver.pressD();
 					else
-						character.Move(Enum.Direction.STOP);
+						receiver.releaseA();
 				}
 				else if (Input.GetKeyDown (KeyCode.D)) {
-					character.Move(Enum.Direction.RIGHT);
+					receiver.pressD();
+					Debug.Log("D");
 				} else if (Input.GetKeyUp (KeyCode.D)) {
 					if (keyCodeStatus [KeyCode.A].Equals (1))
-						character.Move(Enum.Direction.LEFT);
+						receiver.pressA();
 					else
-						character.Move(Enum.Direction.STOP);
+						receiver.releaseD();
 				}
 			}
 
 			if (Input.GetKeyDown (KeyCode.W)) {
-				character.Climb (Enum.Direction.UP);
+				receiver.pressW();
 			} else if (Input.GetKeyDown (KeyCode.S)) {
-				character.Climb (Enum.Direction.DOWN);
+				receiver.pressS();
 			} 
 			else if(Input.GetKeyUp (KeyCode.W) || Input.GetKeyUp (KeyCode.S)){
-				character.Climb (Enum.Direction.STOP);
+				receiver.releaseS();
 			}
 
 			if (Input.GetKeyDown (KeyCode.Q)) {
-				character.Rush (Enum.Direction.LEFT);
+				receiver.pressQ();
 			} else if (Input.GetKeyDown (KeyCode.E)) {
-				character.Rush (Enum.Direction.RIGHT);
+				receiver.pressE();
 			} 
 
 			if (Input.GetKeyDown (KeyCode.K)) {
-				character.Jump ();
+				receiver.pressK();
 			}
 
 			if(Input.GetKeyDown (KeyCode.J)){
-				character.Attack();
+				receiver.pressJ();
 			}
 
 			if(Input.GetKeyDown (KeyCode.L)){
-				character.Defend();
+				receiver.pressL();
 			}
 		}
 	}

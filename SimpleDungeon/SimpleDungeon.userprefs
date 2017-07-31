@@ -1,17 +1,17 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/Action/Impl/AttackAction.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Character.cs">
     <Files>
-      <File FileName="Assets/Script/Character.cs" Line="102" Column="42" />
-      <File FileName="Assets/Script/PlayerController.cs" Line="1" Column="1" />
-      <File FileName="Assets/Script/Action/Action.cs" Line="242" Column="2" />
-      <File FileName="Assets/Script/Interface/Attackable.cs" Line="5" Column="21" />
-      <File FileName="Assets/Script/AttackArea.cs" Line="10" Column="26" />
-      <File FileName="Assets/Script/Action/Impl/AttackAction.cs" Line="41" Column="53" />
-      <File FileName="Assets/Script/InteractArea.cs" Line="14" Column="39" />
-      <File FileName="Assets/Script/Attack/ShortWeapon.cs" Line="9" Column="24" />
-      <File FileName="Assets/Script/Action/Impl/DamageAction.cs" Line="1" Column="1" />
-      <File FileName="Assets/Script/Action/Impl/JumpAttackAction.cs" Line="22" Column="75" />
+      <File FileName="Assets\Script\Character.cs" Line="304" Column="1" />
+      <File FileName="Assets\Script\PlayerController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Action\Action.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Interface\Attackable.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Action\Impl\AttackAction.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Attack\ShortWeapon.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Action\Impl\DamageAction.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Action\Impl\JumpAttackAction.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Receiver.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Action\Impl\ClimbAction.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

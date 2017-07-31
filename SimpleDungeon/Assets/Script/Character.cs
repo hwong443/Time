@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text.RegularExpressions;
 
-public class Character : MonoBehaviour, Interactable, Attackable, Damagable {
+public class Character : MonoBehaviour, Receiver, Interactable, Attackable, Damagable {
 
 	public float moveSpeed = 0.0f;
 	public float passiveMoveSpeed = 0.0f;
@@ -27,7 +27,6 @@ public class Character : MonoBehaviour, Interactable, Attackable, Damagable {
 	public Collider2D colli;
 	public Animator anim;
 	public CharacterInfo info;
-	public ClimbArea climbArea;
 
 	public Dictionary<Collider2D, int> ignoreColliderMap = new Dictionary<Collider2D, int>();
 
@@ -53,8 +52,12 @@ public class Character : MonoBehaviour, Interactable, Attackable, Damagable {
 		}
 
 		// build actions
-		actionTable [Action.Type.Attack] = new AttackAction (this);
-		actionTable [Action.Type.JumpAttack] = new JumpAttackAction (this);
+		//actionTable [Action.Type.Attack] = new AttackAction (this);
+		actionTable [Action.Type.Attack] = new AttackShootAction (this);
+		((AttackShootAction)actionTable [Action.Type.Attack]).SetSprite("Graphic/arrow");
+		//actionTable [Action.Type.JumpAttack] = new JumpAttackAction (this);
+		actionTable [Action.Type.JumpAttack] = new JumpShootAttackAction (this);
+		((JumpShootAttackAction)actionTable [Action.Type.JumpAttack]).SetSprite("Graphic/arrow");
 		actionTable [Action.Type.Defend] = new RushAction (this);
 		actionTable [Action.Type.Defend].SetNextAction (Action.Type.Attack);
 		actionTable [Action.Type.Damage] = new DamageAction (this);
@@ -78,8 +81,7 @@ public class Character : MonoBehaviour, Interactable, Attackable, Damagable {
 
 		attackColli = attack.GetComponent<Collider2D> ();
 		*/	
-
-		climbArea = transform.Find("ClimbArea").GetComponent<ClimbArea> ();
+        
 
 		info = GetComponent<CharacterInfo> ();
 		info.owner = this;
@@ -135,36 +137,20 @@ public class Character : MonoBehaviour, Interactable, Attackable, Damagable {
 			moveSpeed = info.moveSpeed;
 			isMoving = true;
 		}
-
-		Turn (d);
 	}
-	public bool Turn(Enum.Direction d){
-		if (canTurn && d != Enum.Direction.STOP && faceDir != (int)d) {
+	public void Turn(Enum.Direction d){
+		if (canTurn && faceDir != (int)d) {
 			faceDir = (int)d;
 			Vector3 newScale = transform.localScale;
 			newScale.x = -faceDir * Mathf.Abs (newScale.x);
 			transform.localScale = newScale;
-
-			return true;
 		}
-		return false;
 	}
 	public void Jump(){
-		if (canJump) {
-			if (isGrounded) {
-				isClimbing = false;
-				isGrounded = false;
-				rb.velocity = new Vector2 (rb.velocity.x, info.jumpSpeed);
-				++jumpCount;
-			} 
-			else if (canDoubleJump) {
-				canDoubleJump = false;
-				isClimbing = false;
-				isGrounded = false;
-				rb.velocity = new Vector2 (rb.velocity.x, info.jumpSpeed);
-				++jumpCount;
-			}
-		}
+		isClimbing = false;
+		isGrounded = false;
+		rb.velocity = new Vector2 (rb.velocity.x, info.jumpSpeed);
+		++jumpCount;
 	}
 
 	public void Rush(Enum.Direction d){
@@ -175,12 +161,8 @@ public class Character : MonoBehaviour, Interactable, Attackable, Damagable {
 		actionTable [Action.Type.Rush].TriggerAction ();
 	}
 	public void Attack(){
-		if (isGrounded) {
-			Debug.Log ("Attack");
-			actionTable [Action.Type.Attack].TriggerAction ();
-		}
-		else
-			JumpAttack ();
+		Debug.Log ("Attack");
+		actionTable [Action.Type.Attack].TriggerAction ();
 	}
 
 	private void JumpAttack(){
@@ -195,8 +177,7 @@ public class Character : MonoBehaviour, Interactable, Attackable, Damagable {
 	}
 
 	public void Climb(Enum.Direction d){
-		((ClimbAction)actionTable [Action.Type.Climb]).SetDirection (d);
-		if(!isClimbing && climbArea.climbingObjects>0)
+		if(!isClimbing)
 			actionTable [Action.Type.Climb].TriggerAction ();
 	}
 
@@ -296,5 +277,108 @@ public class Character : MonoBehaviour, Interactable, Attackable, Damagable {
 			Physics2D.IgnoreCollision (coll.collider, colli);
 			ignoreColliderMap[coll.collider]=0;
 		} 
+	}
+
+	// ==== receiver =============
+	public void pressQ(){
+		
+	}
+	public void releaseQ(){
+
+	}
+	public void pressE(){
+
+	}
+	public void releaseE(){
+
+	}
+
+	public void pressW(){
+		((ClimbAction)actionTable [Action.Type.Climb]).SetDirection (Enum.Direction.UP);
+		if(((ClimbAction)actionTable[Action.Type.Climb]).ClimbableFound()){
+			Climb(Enum.Direction.UP);
+		}
+	}
+	public void releaseW(){
+		((ClimbAction)actionTable [Action.Type.Climb]).SetDirection (Enum.Direction.STOP);
+		if(((ClimbAction)actionTable[Action.Type.Climb]).ClimbableFound()){
+			Climb(Enum.Direction.STOP);
+		}
+	}
+	public void pressS(){
+		((ClimbAction)actionTable [Action.Type.Climb]).SetDirection (Enum.Direction.DOWN);
+		if(((ClimbAction)actionTable[Action.Type.Climb]).ClimbableFound()){
+			Climb(Enum.Direction.DOWN);
+		}
+	}
+	public void releaseS(){
+		((ClimbAction)actionTable [Action.Type.Climb]).SetDirection (Enum.Direction.STOP);
+		if(((ClimbAction)actionTable[Action.Type.Climb]).ClimbableFound()){
+			Climb(Enum.Direction.STOP);
+		}
+	}
+	public void pressA(){
+		Move(Enum.Direction.LEFT);
+		Turn(Enum.Direction.LEFT);
+	}
+	public void releaseA(){
+		Move(Enum.Direction.STOP);
+	}
+	public void pressD(){
+		Move(Enum.Direction.RIGHT);
+		Turn(Enum.Direction.RIGHT);
+	}
+	public void releaseD(){
+		Move(Enum.Direction.STOP);
+	}
+
+	public void pressJ(){
+		if (isGrounded) {
+			Attack();
+		}
+		else
+			JumpAttack ();
+	}
+	public void releaseJ(){
+
+	}
+	public void pressK(){
+		if (canJump) {
+			if (isGrounded) {
+				Jump();
+			} 
+			else if (canDoubleJump) {
+				canDoubleJump = false;
+				Jump();
+			}
+		}
+	}
+	public void releaseK(){
+
+	}
+	public void pressL(){
+
+	}
+	public void releaseL(){
+
+	}
+
+	public void pressU(){
+
+	}
+	public void releaseU(){
+
+	}
+	public void pressI(){
+
+	}
+	public void releaseI(){
+
+	}
+	public void pressO(){
+
+	}
+	public void releaseO(){
+
 	}
 }

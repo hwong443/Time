@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class ClimbAction : Action {
 
-	private Collider2D colli;
-	private ClimbArea climbArea;
-	private int direction;
+	private Collider2D colliUp;
+	private ClimbArea climbAreaUp;
+    private Collider2D colliDown;
+    private ClimbArea climbAreaDown;
+    private Collider2D colli;
+    private ClimbArea climbArea;
+    private int direction;
 
 	// default
 	public ClimbAction(Character owner): base(owner){
@@ -21,14 +25,32 @@ public class ClimbAction : Action {
 		this.animationName = "Character_Walk";
 
 		//===== new attribute here =======
-		colli = owner.transform.Find ("ClimbArea").GetComponent<Collider2D> ();
-		climbArea = colli.GetComponent<ClimbArea> ();
+		colliUp = owner.transform.Find ("ClimbAreaUp").GetComponent<Collider2D> ();
+		climbAreaUp = colliUp.GetComponent<ClimbArea> ();
 
-		Init();
+        colliDown = owner.transform.Find("ClimbAreaDown").GetComponent<Collider2D>();
+        climbAreaDown = colliDown.GetComponent<ClimbArea>();
+
+		colli = colliUp;
+		climbArea = climbAreaUp;
+
+        Init();
 	}
+
+    public bool ClimbableFound() {
+        return climbArea.climbingObjects > 0;
+    }
 
 	public void SetDirection(Enum.Direction d){
 		direction = (int)d;
+        if (d == Enum.Direction.UP) {
+            colli = colliUp;
+            climbArea = climbAreaUp;
+        }
+        else if (d == Enum.Direction.DOWN) {
+            colli = colliDown;
+            climbArea = climbAreaDown;
+        }
 	}
 
 	public override void StartEffect(){
@@ -63,7 +85,7 @@ public class ClimbAction : Action {
 	}
 
 	protected override void SetActionConstrain(){
-		owner.canWalk = false;
+		//owner.canWalk = false;
 	}
 
 	public override bool SwitchActionCheck(Action.Type type){
