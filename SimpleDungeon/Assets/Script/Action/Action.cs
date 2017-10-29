@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class Action{
 	public enum Type{
-		Attack, JumpAttack, Defend, Damage, Climb, Rush
+		Attack, JumpAttack, Defend, Damage, Climb, Rush, Dead,
+		Aim
 	}
 
 	protected Character owner;
@@ -192,7 +193,7 @@ public abstract class Action{
 		SetActionConstrain ();
 		StartEffect ();
 	}
-	protected void StopAction(){
+	public void StopAction(){
 		EndEffect();
 
 		isActionDone = true;

@@ -52,30 +52,40 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Script\Action\Action.cs" />
+     <Compile Include="Assets\Script\Action\Impl\AimAction.cs" />
      <Compile Include="Assets\Script\Action\Impl\AttackAction.cs" />
      <Compile Include="Assets\Script\Action\Impl\AttackShootAction.cs" />
      <Compile Include="Assets\Script\Action\Impl\ClimbAction.cs" />
      <Compile Include="Assets\Script\Action\Impl\DamageAction.cs" />
+     <Compile Include="Assets\Script\Action\Impl\DeadAction.cs" />
+     <Compile Include="Assets\Script\Action\Impl\DefendAction.cs" />
      <Compile Include="Assets\Script\Action\Impl\JumpAttackAction.cs" />
      <Compile Include="Assets\Script\Action\Impl\JumpAttackShootAction.cs" />
      <Compile Include="Assets\Script\Action\Impl\RushAction.cs" />
-     <Compile Include="Assets\Script\Attack\ShortWeapon.cs" />
-     <Compile Include="Assets\Script\Character.cs" />
-     <Compile Include="Assets\Script\CharacterInfo.cs" />
-     <Compile Include="Assets\Script\Controller.cs" />
-     <Compile Include="Assets\Script\DetectArea\AttackArea.cs" />
+     <Compile Include="Assets\Script\Attack\Attack.cs" />
+     <Compile Include="Assets\Script\Attack\Impl\SimpleAttack.cs" />
+     <Compile Include="Assets\Script\Character\Archer.cs" />
+     <Compile Include="Assets\Script\Character\Character.cs" />
+     <Compile Include="Assets\Script\Character\Enemy1.cs" />
+     <Compile Include="Assets\Script\Character\Warrier.cs" />
+     <Compile Include="Assets\Script\CharacterInfo\CharacterInfo.cs" />
+     <Compile Include="Assets\Script\Control\AIController.cs" />
+     <Compile Include="Assets\Script\Control\Controller.cs" />
+     <Compile Include="Assets\Script\Control\Impl\PlayerController.cs" />
+     <Compile Include="Assets\Script\Control\Impl\SimpleAIController.cs" />
+     <Compile Include="Assets\Script\Control\Receiver.cs" />
+     <Compile Include="Assets\Script\DetectArea\AimArea.cs" />
+     <Compile Include="Assets\Script\DetectArea\AttackArea\AttackArea.cs" />
+     <Compile Include="Assets\Script\DetectArea\AttackArea\EndPointAttackArea.cs" />
+     <Compile Include="Assets\Script\DetectArea\AttackArea\NonProjectingAttackArea.cs" />
+     <Compile Include="Assets\Script\DetectArea\AttackArea\ProjectingAttackArea.cs" />
      <Compile Include="Assets\Script\DetectArea\ClimbArea.cs" />
-     <Compile Include="Assets\Script\DetectArea\EndPointAttackArea.cs" />
      <Compile Include="Assets\Script\DetectArea\InteractArea.cs" />
-     <Compile Include="Assets\Script\DetectArea\NonProjectingAttackArea.cs" />
-     <Compile Include="Assets\Script\DetectArea\ProjectingAttackArea.cs" />
-     <Compile Include="Assets\Script\Interface\Attack.cs" />
      <Compile Include="Assets\Script\Interface\Attackable.cs" />
      <Compile Include="Assets\Script\Interface\Damageable.cs" />
      <Compile Include="Assets\Script\Interface\Interactable.cs" />
-     <Compile Include="Assets\Script\PlayerController.cs" />
-     <Compile Include="Assets\Script\Receiver.cs" />
-     <Compile Include="Assets\Script\Unity\Enum.cs" />
+     <Compile Include="Assets\Script\Unity\Util.cs" />
+     <Compile Include="Assets\Script\Unity\World.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

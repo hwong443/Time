@@ -5,6 +5,7 @@ using UnityEngine;
 public class JumpShootAttackAction : Action {
 
 	private Sprite sprite;
+	private bool trigger;
 
 	// default
 	public JumpShootAttackAction(Character owner): base(owner){
@@ -13,10 +14,10 @@ public class JumpShootAttackAction : Action {
 		this.timeout = 0f;
 		this.type = Type.JumpAttack;
 		this.actionDuration = 1f;
-		this.isCancelable = false;
-		this.isRepeatable = false;
+		this.isCancelable = true;
+		this.isRepeatable = true;
 		this.isSpeedChangable = true;
-		this.animationName = "Character_JumpAttack";
+		this.animationName = owner.GetClassName()+"_JumpAttack";
 
 		//===== new attribute here =======
 
@@ -30,38 +31,41 @@ public class JumpShootAttackAction : Action {
 	}
 
 	public override void StartEffect(){
-		Debug.Log ("StartEffect");
-		GameObject obj = GameObject.Instantiate(Resources.Load("Prefabs/ProjectionAttackArea")) as GameObject;
-		ProjectingAttackArea arrow = obj.GetComponent<ProjectingAttackArea> ();
-		arrow.Init();
-		arrow.SetSprite(sprite);
-		arrow.SetForce(1000*owner.faceDir);
-		arrow.SetAttacker(owner);
-		arrow.SetAttack(new ShortWeapon(15));
-		Vector3 ownerPosi = owner.transform.position;
-		arrow.transform.position = new Vector3(ownerPosi.x + owner.faceDir*owner.sr.bounds.extents.x, ownerPosi.y, arrow.transform.position.z);
+		trigger = true;
 	}
 
 	public override void UpdateEffect(){
-
+		if(owner.isGrounded){
+			isActionDone = true;
+			trigger = false;
+		}
 	}
 
 	public override void EndEffect(){
-		
+		if(trigger){
+			GameObject obj = GameObject.Instantiate(Resources.Load("Prefabs/ProjectionAttackArea")) as GameObject;
+			ProjectingAttackArea arrow = obj.GetComponent<ProjectingAttackArea> ();
+			arrow.Init();
+			arrow.SetSprite(sprite);
+			arrow.SetForce(1000*owner.faceDir);
+			arrow.SetAttacker(owner);
+			arrow.SetAttack(new SimpleAttack(15));
+			Vector3 ownerPosi = owner.transform.position;
+			arrow.transform.position = new Vector3(
+				ownerPosi.x + owner.faceDir*owner.GetSpriteRenderer().bounds.extents.x, 
+				ownerPosi.y, 
+				arrow.transform.position.z);
+		}
+
 	}
 
 	protected override void SetActionConstrain(){
-		Debug.Log ("SetActionConstrain");
-
-		owner.canWalk = false;
-		owner.canTurn = false;
 	}
 
 	public override bool SwitchActionCheck(Action.Type type){
 		isActionDone = true;
 		SetTriggerNextAction(false);
 		StopAction ();
-		Debug.Log ("trigger normal action");
 		return true;
 	}
 }

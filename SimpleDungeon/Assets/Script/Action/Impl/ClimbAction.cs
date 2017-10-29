@@ -18,11 +18,10 @@ public class ClimbAction : Action {
 
 		this.timeout = 0f;
 		this.type = Type.Climb;
-		this.actionDuration = 1f;
 		this.isCancelable = true;
 		this.isRepeatable = true;
 		this.isSpeedChangable = true;
-		this.animationName = "Character_Walk";
+		this.animationName = owner.GetClassName()+"_Walk";
 
 		//===== new attribute here =======
 		colliUp = owner.transform.Find ("ClimbAreaUp").GetComponent<Collider2D> ();
@@ -41,13 +40,13 @@ public class ClimbAction : Action {
         return climbArea.climbingObjects > 0;
     }
 
-	public void SetDirection(Enum.Direction d){
+	public void SetDirection(World.Direction d){
 		direction = (int)d;
-        if (d == Enum.Direction.UP) {
+        if (d == World.Direction.UP) {
             colli = colliUp;
             climbArea = climbAreaUp;
         }
-        else if (d == Enum.Direction.DOWN) {
+        else if (d == World.Direction.DOWN) {
             colli = colliDown;
             climbArea = climbAreaDown;
         }
@@ -56,16 +55,16 @@ public class ClimbAction : Action {
 	public override void StartEffect(){
 		//colli.enabled = true;
 		owner.isClimbing = true;
-		foreach(Collider2D collider in owner.ignoreColliderMap.Keys){
-			Physics2D.IgnoreCollision (collider, owner.colli);
+		foreach(Collider2D collider in owner.GetIgnoreColliderMap().Keys){
+			Physics2D.IgnoreCollision (collider, owner.GetCollider());
 		}
 	}
 
 	public override void UpdateEffect(){
 		if (climbArea.climbingObjects > 0 && owner.isGrounded) {
-			owner.rb.gravityScale = 0;
+			owner.GetRigidbody2D().gravityScale = 0;
 			//owner.rb.bodyType = RigidbodyType2D.Kinematic;
-			owner.rb.velocity = new Vector2 (owner.rb.velocity.x, 200*Time.deltaTime*direction);
+			owner.GetRigidbody2D().velocity = new Vector2 (owner.GetRigidbody2D().velocity.x, 200*Time.deltaTime*direction);
 		} 
 		else {
 			isActionDone = true;
@@ -77,10 +76,10 @@ public class ClimbAction : Action {
 		//climbArea.climbingObjects = 0;
 		owner.isClimbing = false;
 		//owner.rb.velocity = new Vector2 (owner.rb.velocity.x, 0);
-		owner.rb.gravityScale = 5;
+		owner.GetRigidbody2D().gravityScale = 5;
 
-		foreach(Collider2D collider in owner.ignoreColliderMap.Keys){
-			Physics2D.IgnoreCollision (collider, owner.colli, false);
+		foreach(Collider2D collider in owner.GetIgnoreColliderMap().Keys){
+			Physics2D.IgnoreCollision (collider, owner.GetCollider(), false);
 		}
 	}
 
@@ -89,7 +88,6 @@ public class ClimbAction : Action {
 	}
 
 	public override bool SwitchActionCheck(Action.Type type){
-		isActionDone = true;
 		SetTriggerNextAction(false);
 		StopAction ();
 		Debug.Log ("trigger normal action");

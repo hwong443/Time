@@ -10,13 +10,12 @@ public class DamageAction : Action {
 	public DamageAction(Character owner): base(owner){
 		//this(owner, Type.Attack, 1f, 1f, false, false, true, "Character_Attack");
 
-		this.timeout = 1f;
+		this.timeout = 0f;
 		this.type = Type.Damage;
-		this.actionDuration = 0.3f;
 		this.isCancelable = true;
 		this.isRepeatable = false;
 		this.isSpeedChangable = true;
-		this.animationName = "Character_Hurt";
+		this.animationName = owner.GetClassName()+"_Hurt";
 
 		//===== new attribute here =======
 		//colli = owner.transform.Find ("Attack").GetComponent<Collider2D> ();
@@ -36,11 +35,10 @@ public class DamageAction : Action {
 
 	public override void EndEffect(){
 		//colli.enabled = false;
+		Debug.Log("done hurt");
 	}
 
 	protected override void SetActionConstrain(){
-		Debug.Log ("SetActionConstrain");
-
 		owner.canJump = false;
 		owner.canWalk = false;
 		owner.canTurn = false;
@@ -50,7 +48,6 @@ public class DamageAction : Action {
 		isActionDone = true;
 		SetTriggerNextAction(false);
 		StopAction ();
-		Debug.Log ("trigger normal action");
 		return true;
 	}
 }

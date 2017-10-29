@@ -10,13 +10,13 @@ public class JumpAttackAction : Action {
 	public JumpAttackAction(Character owner): base(owner){
 		//this(owner, Type.Attack, 1f, 1f, false, false, true, "Character_Attack");
 
-		this.timeout = 3f;
+		this.timeout = 0f;
 		this.type = Type.JumpAttack;
 		this.actionDuration = 1f;
 		this.isCancelable = false;
 		this.isRepeatable = false;
 		this.isSpeedChangable = true;
-		this.animationName = "Character_JumpAttack";
+		this.animationName = owner.GetClassName()+"_JumpAttack";
 
 		//===== new attribute here =======
 		colli = owner.transform.Find ("AttackArea").GetComponent<Collider2D> ();
@@ -25,31 +25,33 @@ public class JumpAttackAction : Action {
 	}
 
 	public override void StartEffect(){
-		Debug.Log ("StartEffect");
 		colli.enabled = true;
+		colli.transform.localScale = new Vector3(1, 1, 1);
 	}
 
 	public override void UpdateEffect(){
-
+		if(owner.isGrounded){
+			StopAction ();
+		}
 	}
 
 	public override void EndEffect(){
-		Debug.Log ("EndEffect");
 		colli.enabled = false;
+		colli.transform.localScale = new Vector3(0, 0, 0);
 	}
 
 	protected override void SetActionConstrain(){
-		Debug.Log ("SetActionConstrain");
-
-		owner.canWalk = false;
+		owner.canWalk = true;
 		owner.canTurn = false;
 	}
 
 	public override bool SwitchActionCheck(Action.Type type){
-		isActionDone = true;
-		SetTriggerNextAction(false);
-		StopAction ();
-		Debug.Log ("trigger normal action");
-		return true;
+		if(Action.Type.Damage.Equals(type)){	
+			SetTriggerNextAction(false);
+			StopAction ();
+			Debug.Log ("trigger normal action");
+			return true;
+		}
+		return false;
 	}
 }

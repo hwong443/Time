@@ -15,7 +15,7 @@ public class RushAction : Action {
 		this.isCancelable = true;
 		this.isRepeatable = false;
 		this.isSpeedChangable = true;
-		this.animationName = "Character_Walk";
+		this.animationName = owner.GetClassName()+"_Walk";
 
 		//===== new attribute here =======
 
@@ -24,7 +24,7 @@ public class RushAction : Action {
 		this.actionDuration = 0.15f;
 	}
 
-	public void SetDirection(Enum.Direction d){
+	public void SetDirection(World.Direction d){
 		direction = (int)d;
 	}
 

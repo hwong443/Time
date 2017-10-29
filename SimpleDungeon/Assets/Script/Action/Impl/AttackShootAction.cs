@@ -13,35 +13,30 @@ public class AttackShootAction : Action {
 		this.timeout = 0f;
 		this.type = Type.Attack;
 		this.actionDuration = 1f;
-		this.isCancelable = false;
-		this.isRepeatable = false;
+		this.isCancelable = true;
+		this.isRepeatable = true;
 		this.isSpeedChangable = true;
-		this.animationName = "Character_Attack";
+		this.animationName = owner.GetClassName()+"_Attack";
 
 		//===== new attribute here =======
 
 		Init();
+
 	}
 
 	public void SetSprite(string spriteName){
 		sprite =  Resources.Load(spriteName, typeof(Sprite)) as Sprite;
-		Debug.Log(spriteName);
-		Debug.Log(sprite);
 	}
 
 	public override void StartEffect(){
-		Debug.Log ("StartEffect");
+	}
 
-		GameObject obj = GameObject.Instantiate(Resources.Load("Prefabs/EndPointAttackArea")) as GameObject;
-		EndPointAttackArea arrow = obj.GetComponent<EndPointAttackArea> ();
-		arrow.Init();
-		arrow.SetSprite(sprite);
-		arrow.SetForce(1000*owner.faceDir);
-		arrow.SetAttacker(owner);
-		arrow.SetAttack(new ShortWeapon(15));
-		Vector3 ownerPosi = owner.transform.position;
-		arrow.transform.position = new Vector3(ownerPosi.x + owner.faceDir*owner.sr.bounds.extents.x, ownerPosi.y, arrow.transform.position.z);
+	public override void UpdateEffect(){
 
+	}
+
+	public override void EndEffect(){
+		
 
 		/*
 		GameObject obj = GameObject.Instantiate(Resources.Load("Prefabs/NonProjectionAttackArea")) as GameObject;
@@ -55,32 +50,24 @@ public class AttackShootAction : Action {
 		arrow.transform.position = new Vector3(ownerPosi.x + owner.faceDir*owner.sr.bounds.extents.x, ownerPosi.y, arrow.transform.position.z);
 		*/
 
-		/*
+
 		GameObject obj = GameObject.Instantiate(Resources.Load("Prefabs/ProjectionAttackArea")) as GameObject;
 		ProjectingAttackArea arrow = obj.GetComponent<ProjectingAttackArea> ();
 		arrow.Init();
 		arrow.SetSprite(sprite);
 		arrow.SetForce(1000*owner.faceDir);
 		arrow.SetAttacker(owner);
-		arrow.SetAttack(new ShortWeapon(15));
+		arrow.SetAttack(new SimpleAttack(15));
 		Vector3 ownerPosi = owner.transform.position;
-		arrow.transform.position = new Vector3(ownerPosi.x + owner.faceDir*owner.sr.bounds.extents.x, ownerPosi.y, arrow.transform.position.z);
-		*/
-		
-	}
+		arrow.transform.position = new Vector3(
+			ownerPosi.x + owner.faceDir*owner.GetSpriteRenderer().bounds.extents.x, 
+			ownerPosi.y, 
+			arrow.transform.position.z);
 
-	public override void UpdateEffect(){
-
-	}
-
-	public override void EndEffect(){
 	}
 
 	protected override void SetActionConstrain(){
 		Debug.Log ("SetActionConstrain");
-
-		owner.canJump = false;
-		owner.canTurn = false;
 	}
 
 	public override bool SwitchActionCheck(Action.Type type){

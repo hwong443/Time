@@ -1,17 +1,19 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Character.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Control\PlayerController.cs">
     <Files>
-      <File FileName="Assets\Script\Character.cs" Line="304" Column="1" />
-      <File FileName="Assets\Script\PlayerController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\Action\Action.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\Interface\Attackable.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\Action\Impl\AttackAction.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\Attack\ShortWeapon.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\Action\Impl\DamageAction.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\Action\Impl\JumpAttackAction.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\Receiver.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\Action\Impl\ClimbAction.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Character\Archer.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Unity\World.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Character\Character.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Control\PlayerController.cs" Line="41" Column="44" />
+      <File FileName="Assets\Script\DetectArea\AttackArea\AttackArea.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\CharacterInfo\CharacterInfo.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Character\Warrier.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Action\Impl\DefendAction.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Action\Impl\AttackAction.cs" Line="13" Column="19" />
+      <File FileName="Assets\Script\Attack\Impl\SimpleAttack.cs" Line="16" Column="1" NotebookId="1" />
+      <File FileName="Assets\Script\Action\Action.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets\Script\Action\Impl\DamageAction.cs" Line="1" Column="1" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
